@@ -455,6 +455,35 @@
                     </div>
                     
                     <hr class="admin-divider">
+                    <h4>Gestionar Datos del Sitio</h4>
+                    <div class="data-management-section">
+                        <p>Exporta e importa todos los datos del sitio (sermones, recursos, contenido, imágenes).</p>
+                        <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                            <button class="admin-btn" onclick="exportAllData()" style="background: #28a745;">
+                                <i class="fas fa-download"></i> Exportar Todos los Datos
+                            </button>
+                            <button class="admin-btn" onclick="importAllData()" style="background: #17a2b8;">
+                                <i class="fas fa-upload"></i> Importar Datos
+                            </button>
+                            <button class="admin-btn" onclick="createInitialData()" style="background: #6f42c1;">
+                                <i class="fas fa-file"></i> Crear Datos Iniciales
+                            </button>
+                            <button class="admin-btn" onclick="diagnoseSite()" style="background: #6c757d;">
+                                <i class="fas fa-bug"></i> Diagnóstico Completo
+                            </button>
+                            <button class="admin-btn" onclick="restoreSampleData()" style="background: #fd7e14;">
+                                <i class="fas fa-magic"></i> Restaurar Datos de Ejemplo
+                            </button>
+                            <button class="admin-btn" onclick="initializeSite()" style="background: #20c997;">
+                                <i class="fas fa-sync"></i> Reinicializar Sitio
+                            </button>
+                            <button class="admin-btn" onclick="checkFilesAccess()" style="background: #e83e8c;">
+                                <i class="fas fa-file-alt"></i> Verificar Archivos
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <hr class="admin-divider">
                     <h4>Recursos</h4>
                     <div class="recursos-section">
                         <div class="recursos-categorias">

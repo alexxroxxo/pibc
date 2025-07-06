@@ -4903,6 +4903,479 @@ document.addEventListener('DOMContentLoaded', function() {
         // Cargar la imagen
         img.src = 'foto_iglesia.jpg';
     };
+
+    // Función para exportar todos los datos del sitio
+    window.exportAllData = function() {
+        console.log('=== EXPORTANDO TODOS LOS DATOS ===');
+        
+        const exportData = {
+            sermones: getAllSermones(),
+            recursos: getRecursos(),
+            nosotrosContent: localStorage.getItem('nosotrosContent'),
+            headerBackground: localStorage.getItem('headerBackground'),
+            featuresBackground: localStorage.getItem('featuresBackground'),
+            sermonsBackground: localStorage.getItem('sermonsBackground'),
+            ministriesBackground: localStorage.getItem('ministriesBackground'),
+            ultimosSermones: JSON.parse(localStorage.getItem('ultimosSermones') || '[]'),
+            adminPassword: localStorage.getItem('adminPassword'),
+            exportDate: new Date().toISOString()
+        };
+        
+        const dataStr = JSON.stringify(exportData, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(dataBlob);
+        link.download = `iglesia-backup-${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+        
+        console.log('✅ Datos exportados correctamente');
+        alert('✅ Datos exportados correctamente. Guarda este archivo en un lugar seguro.');
+    };
+
+    // Función para importar todos los datos del sitio
+    window.importAllData = function() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        
+        input.onchange = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const importData = JSON.parse(event.target.result);
+                    console.log('=== IMPORTANDO DATOS ===', importData);
+                    
+                    // Importar sermones
+                    if (importData.sermones && Array.isArray(importData.sermones)) {
+                        saveAllSermones(importData.sermones);
+                        console.log('✅ Sermones importados:', importData.sermones.length);
+                    }
+                    
+                    // Importar recursos
+                    if (importData.recursos) {
+                        setRecursos(importData.recursos);
+                        console.log('✅ Recursos importados');
+                    }
+                    
+                    // Importar contenido de nosotros
+                    if (importData.nosotrosContent) {
+                        localStorage.setItem('nosotrosContent', importData.nosotrosContent);
+                        console.log('✅ Contenido de nosotros importado');
+                    }
+                    
+                    // Importar imágenes de fondo
+                    if (importData.headerBackground) {
+                        localStorage.setItem('headerBackground', importData.headerBackground);
+                        applyBackgroundImage('header', importData.headerBackground);
+                    }
+                    if (importData.featuresBackground) {
+                        localStorage.setItem('featuresBackground', importData.featuresBackground);
+                        applyBackgroundImage('features', importData.featuresBackground);
+                    }
+                    if (importData.sermonsBackground) {
+                        localStorage.setItem('sermonsBackground', importData.sermonsBackground);
+                        applyBackgroundImage('sermons', importData.sermonsBackground);
+                    }
+                    if (importData.ministriesBackground) {
+                        localStorage.setItem('ministriesBackground', importData.ministriesBackground);
+                        applyBackgroundImage('ministries', importData.ministriesBackground);
+                    }
+                    
+                    // Importar últimos sermones
+                    if (importData.ultimosSermones) {
+                        localStorage.setItem('ultimosSermones', JSON.stringify(importData.ultimosSermones));
+                    }
+                    
+                    // Importar contraseña de admin
+                    if (importData.adminPassword) {
+                        localStorage.setItem('adminPassword', importData.adminPassword);
+                    }
+                    
+                    // Actualizar todas las vistas
+                    if (typeof renderUltimosSermones === 'function') {
+                        renderUltimosSermones();
+                    }
+                    if (typeof updateNosotrosPreview === 'function') {
+                        updateNosotrosPreview();
+                    }
+                    if (typeof loadNosotrosContent === 'function') {
+                        loadNosotrosContent();
+                    }
+                    
+                    console.log('✅ Todos los datos importados correctamente');
+                    alert('✅ Todos los datos importados correctamente. Recarga la página para ver los cambios.');
+                    
+                } catch (error) {
+                    console.error('❌ Error al importar datos:', error);
+                    alert('❌ Error al importar datos. Verifica que el archivo sea válido.');
+                }
+            };
+            
+            reader.readAsText(file);
+        };
+        
+        input.click();
+    };
+
+    // Función para crear un archivo de datos iniciales
+    window.createInitialData = function() {
+        console.log('=== CREANDO DATOS INICIALES ===');
+        
+        // Datos de ejemplo para el sitio
+        const initialData = {
+            sermones: [
+                {
+                    id: 1,
+                    nombre: "La Gracia de Dios",
+                    pastor: "Pastor Principal",
+                    fecha: new Date().toISOString(),
+                    embed: "<iframe width='560' height='315' src='https://www.youtube.com/embed/example' frameborder='0' allowfullscreen></iframe>"
+                }
+            ],
+            recursos: {
+                audiolibros: [
+                    {
+                        nombre: "Confesión de Fe Bautista de 1689",
+                        descripcion: "Documento histórico de la fe bautista",
+                        url: "Recursos/confesion1689.pdf",
+                        tipo: "pdf"
+                    }
+                ],
+                textos: [],
+                videos: []
+            },
+            nosotrosContent: `
+                <div id="div-1" class="nosotros-text-div" style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <div class="div-content">
+                        <h3 style="color: #0a2947; font-weight: bold; margin-bottom: 15px;">Bienvenidos a Nuestra Iglesia</h3>
+                        <p style="line-height: 1.6; color: #333;">Somos una comunidad cristiana comprometida con la enseñanza bíblica y el servicio a Dios. Nuestra misión es compartir el evangelio de Jesucristo y edificar a los creyentes en su fe.</p>
+                    </div>
+                    <div class="div-controls" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button onclick="editTextDiv('div-1')" style="padding: 5px 10px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Editar</button>
+                        <button onclick="deleteTextDiv('div-1')" style="padding: 5px 10px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Eliminar</button>
+                        <button onclick="moveTextDiv('div-1', 'up')" style="padding: 5px 10px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">↑</button>
+                        <button onclick="moveTextDiv('div-1', 'down')" style="padding: 5px 10px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">↓</button>
+                    </div>
+                </div>
+            `,
+            ultimosSermones: [],
+            adminPassword: "admin123",
+            exportDate: new Date().toISOString()
+        };
+        
+        const dataStr = JSON.stringify(initialData, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(dataBlob);
+        link.download = 'iglesia-datos-iniciales.json';
+        link.click();
+        
+        console.log('✅ Datos iniciales creados correctamente');
+        alert('✅ Archivo de datos iniciales creado. Puedes importarlo en el sitio desplegado.');
+    };
+
+    // Función de diagnóstico completo del sitio
+    window.diagnoseSite = function() {
+        console.log('=== DIAGNÓSTICO COMPLETO DEL SITIO ===');
+        
+        // Verificar localStorage
+        const keys = ['sermones', 'recursos', 'nosotrosContent', 'headerBackground', 'featuresBackground', 'sermonsBackground', 'ministriesBackground', 'ultimosSermones', 'adminPassword'];
+        
+        console.log('--- VERIFICANDO LOCALSTORAGE ---');
+        keys.forEach(key => {
+            const value = localStorage.getItem(key);
+            console.log(`${key}:`, value ? 'SÍ' : 'NO', value ? `(${value.length} chars)` : '');
+        });
+        
+        // Verificar funciones
+        console.log('--- VERIFICANDO FUNCIONES ---');
+        const functions = ['getAllSermones', 'getRecursos', 'renderUltimosSermones', 'loadNosotrosContent', 'updateNosotrosPreview'];
+        functions.forEach(func => {
+            console.log(`${func}:`, typeof window[func] === 'function' ? 'SÍ' : 'NO');
+        });
+        
+        // Verificar elementos del DOM
+        console.log('--- VERIFICANDO ELEMENTOS DEL DOM ---');
+        const elements = ['nosotrosContent', 'nosotrosPreview', 'sermonesGrid', 'headerPreview'];
+        elements.forEach(element => {
+            const el = document.getElementById(element);
+            console.log(`${element}:`, el ? 'SÍ' : 'NO');
+        });
+        
+        // Verificar datos específicos
+        console.log('--- VERIFICANDO DATOS ESPECÍFICOS ---');
+        const sermones = getAllSermones();
+        console.log('Sermones encontrados:', sermones.length);
+        if (sermones.length > 0) {
+            console.log('Primer sermón:', sermones[0]);
+        }
+        
+        const recursos = getRecursos();
+        console.log('Recursos encontrados:', recursos ? 'SÍ' : 'NO');
+        if (recursos) {
+            console.log('Categorías de recursos:', Object.keys(recursos));
+        }
+        
+        const nosotrosContent = localStorage.getItem('nosotrosContent');
+        console.log('Contenido de nosotros:', nosotrosContent ? 'SÍ' : 'NO');
+        
+        alert('Revisa la consola para ver el diagnóstico completo');
+    };
+
+    // Función para restaurar datos de ejemplo
+    window.restoreSampleData = function() {
+        if (confirm('¿Estás seguro de que quieres restaurar datos de ejemplo? Esto sobrescribirá cualquier dato existente.')) {
+            console.log('=== RESTAURANDO DATOS DE EJEMPLO ===');
+            
+            // Sermones de ejemplo
+            const sampleSermones = [
+                {
+                    id: 1,
+                    nombre: "La Gracia de Dios",
+                    pastor: "Pastor Principal",
+                    fecha: new Date().toISOString(),
+                    embed: "<iframe width='560' height='315' src='https://www.youtube.com/embed/dQw4w9WgXcQ' frameborder='0' allowfullscreen></iframe>",
+                    imagen: null
+                },
+                {
+                    id: 2,
+                    nombre: "Viviendo en Fe",
+                    pastor: "Pastor Principal",
+                    fecha: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+                    embed: "<iframe width='560' height='315' src='https://www.youtube.com/embed/dQw4w9WgXcQ' frameborder='0' allowfullscreen></iframe>",
+                    imagen: null
+                }
+            ];
+            
+            // Recursos de ejemplo
+            const sampleRecursos = {
+                audiolibros: [
+                    {
+                        nombre: "Confesión de Fe Bautista de 1689",
+                        descripcion: "Documento histórico de la fe bautista",
+                        url: "Recursos/confesion1689.pdf",
+                        tipo: "pdf"
+                    }
+                ],
+                textos: [
+                    {
+                        nombre: "Manual de Doctrina",
+                        descripcion: "Guía básica de doctrina cristiana",
+                        url: "Recursos/manual-doctrina.pdf",
+                        tipo: "pdf"
+                    }
+                ],
+                videos: []
+            };
+            
+            // Contenido de nosotros de ejemplo
+            const sampleNosotros = `
+                <div id="div-1" class="nosotros-text-div" style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <div class="div-content">
+                        <h3 style="color: #0a2947; font-weight: bold; margin-bottom: 15px;">Bienvenidos a Nuestra Iglesia</h3>
+                        <p style="line-height: 1.6; color: #333;">Somos una comunidad cristiana comprometida con la enseñanza bíblica y el servicio a Dios. Nuestra misión es compartir el evangelio de Jesucristo y edificar a los creyentes en su fe.</p>
+                    </div>
+                    <div class="div-controls" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button onclick="editTextDiv('div-1')" style="padding: 5px 10px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Editar</button>
+                        <button onclick="deleteTextDiv('div-1')" style="padding: 5px 10px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Eliminar</button>
+                        <button onclick="moveTextDiv('div-1', 'up')" style="padding: 5px 10px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">↑</button>
+                        <button onclick="moveTextDiv('div-1', 'down')" style="padding: 5px 10px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">↓</button>
+                    </div>
+                </div>
+                <div id="div-2" class="nosotros-text-div" style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <div class="div-content">
+                        <h3 style="color: #0a2947; font-weight: bold; margin-bottom: 15px;">Nuestra Misión</h3>
+                        <p style="line-height: 1.6; color: #333;">Proclamar el evangelio de Jesucristo, hacer discípulos y servir a nuestra comunidad con amor y compasión, siguiendo el ejemplo de nuestro Señor.</p>
+                    </div>
+                    <div class="div-controls" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button onclick="editTextDiv('div-2')" style="padding: 5px 10px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Editar</button>
+                        <button onclick="deleteTextDiv('div-2')" style="padding: 5px 10px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Eliminar</button>
+                        <button onclick="moveTextDiv('div-2', 'up')" style="padding: 5px 10px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">↑</button>
+                        <button onclick="moveTextDiv('div-2', 'down')" style="padding: 5px 10px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">↓</button>
+                    </div>
+                </div>
+            `;
+            
+            // Guardar datos
+            saveAllSermones(sampleSermones);
+            setRecursos(sampleRecursos);
+            localStorage.setItem('nosotrosContent', sampleNosotros);
+            localStorage.setItem('ultimosSermones', JSON.stringify(sampleSermones.slice(0, 3)));
+            
+            // Actualizar vistas
+            if (typeof renderUltimosSermones === 'function') {
+                renderUltimosSermones();
+            }
+            if (typeof updateNosotrosPreview === 'function') {
+                updateNosotrosPreview();
+            }
+            if (typeof loadNosotrosContent === 'function') {
+                loadNosotrosContent();
+            }
+            
+            console.log('✅ Datos de ejemplo restaurados correctamente');
+            alert('✅ Datos de ejemplo restaurados correctamente. Recarga la página para ver los cambios.');
+        }
+    };
+
+    // Función de inicialización automática
+    window.initializeSite = function() {
+        console.log('=== INICIALIZANDO SITIO ===');
+        
+        // Verificar que estamos en el contexto correcto
+        console.log('URL actual:', window.location.href);
+        console.log('Protocolo:', window.location.protocol);
+        console.log('Host:', window.location.host);
+        
+        // Verificar que las funciones principales estén disponibles
+        const requiredFunctions = [
+            'getAllSermones', 'getRecursos', 'renderUltimosSermones', 
+            'loadNosotrosContent', 'updateNosotrosPreview', 'loadSavedBackgrounds'
+        ];
+        
+        console.log('--- VERIFICANDO FUNCIONES REQUERIDAS ---');
+        requiredFunctions.forEach(func => {
+            const available = typeof window[func] === 'function';
+            console.log(`${func}: ${available ? '✅' : '❌'}`);
+            if (!available) {
+                console.error(`Función ${func} no está disponible`);
+            }
+        });
+        
+        // Verificar elementos del DOM
+        console.log('--- VERIFICANDO ELEMENTOS DEL DOM ---');
+        const requiredElements = [
+            'nosotrosContent', 'nosotrosPreview', 'sermonesGrid', 
+            'headerPreview', 'heroCarousel'
+        ];
+        
+        requiredElements.forEach(elementId => {
+            const element = document.getElementById(elementId);
+            console.log(`${elementId}: ${element ? '✅' : '❌'}`);
+        });
+        
+        // Intentar cargar datos automáticamente
+        console.log('--- CARGANDO DATOS AUTOMÁTICAMENTE ---');
+        
+        // Cargar sermones
+        if (typeof renderUltimosSermones === 'function') {
+            try {
+                renderUltimosSermones();
+                console.log('✅ Sermones cargados');
+            } catch (error) {
+                console.error('❌ Error al cargar sermones:', error);
+            }
+        }
+        
+        // Cargar contenido de nosotros
+        if (typeof loadNosotrosContent === 'function') {
+            try {
+                loadNosotrosContent();
+                console.log('✅ Contenido de nosotros cargado');
+            } catch (error) {
+                console.error('❌ Error al cargar contenido de nosotros:', error);
+            }
+        }
+        
+        // Cargar fondos guardados
+        if (typeof loadSavedBackgrounds === 'function') {
+            try {
+                loadSavedBackgrounds();
+                console.log('✅ Fondos guardados cargados');
+            } catch (error) {
+                console.error('❌ Error al cargar fondos:', error);
+            }
+        }
+        
+        // Verificar si hay datos en localStorage
+        console.log('--- VERIFICANDO LOCALSTORAGE ---');
+        const dataKeys = ['sermones', 'recursos', 'nosotrosContent', 'headerBackground'];
+        dataKeys.forEach(key => {
+            const data = localStorage.getItem(key);
+            console.log(`${key}: ${data ? '✅' : '❌'}`);
+        });
+        
+        console.log('=== INICIALIZACIÓN COMPLETADA ===');
+    };
+
+    // Ejecutar inicialización cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initializeSite, 1000); // Esperar 1 segundo para asegurar que todo esté cargado
+        });
+    } else {
+        setTimeout(initializeSite, 1000);
+    }
+
+    // Función para verificar archivos importantes
+    window.checkFilesAccess = function() {
+        console.log('=== VERIFICANDO ACCESO A ARCHIVOS ===');
+        
+        const filesToCheck = [
+            'styles.css',
+            'script.js',
+            'favicon.png',
+            'logo-iglesia png.png',
+            'foto_iglesia.jpg',
+            'nosotros.html',
+            'sermones.html',
+            'recursos.html',
+            'live-stream.html'
+        ];
+        
+        let checkedFiles = 0;
+        let accessibleFiles = 0;
+        
+        filesToCheck.forEach(file => {
+            const img = new Image();
+            img.onload = function() {
+                console.log(`✅ ${file} - ACCESIBLE`);
+                accessibleFiles++;
+                checkedFiles++;
+                if (checkedFiles === filesToCheck.length) {
+                    console.log(`=== RESULTADO: ${accessibleFiles}/${filesToCheck.length} archivos accesibles ===`);
+                }
+            };
+            img.onerror = function() {
+                console.log(`❌ ${file} - NO ACCESIBLE`);
+                checkedFiles++;
+                if (checkedFiles === filesToCheck.length) {
+                    console.log(`=== RESULTADO: ${accessibleFiles}/${filesToCheck.length} archivos accesibles ===`);
+                }
+            };
+            
+            // Para archivos que no son imágenes, usar fetch
+            if (!file.match(/\.(jpg|jpeg|png|gif|svg)$/i)) {
+                fetch(file)
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`✅ ${file} - ACCESIBLE`);
+                            accessibleFiles++;
+                        } else {
+                            console.log(`❌ ${file} - NO ACCESIBLE (${response.status})`);
+                        }
+                        checkedFiles++;
+                        if (checkedFiles === filesToCheck.length) {
+                            console.log(`=== RESULTADO: ${accessibleFiles}/${filesToCheck.length} archivos accesibles ===`);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(`❌ ${file} - NO ACCESIBLE (${error.message})`);
+                        checkedFiles++;
+                        if (checkedFiles === filesToCheck.length) {
+                            console.log(`=== RESULTADO: ${accessibleFiles}/${filesToCheck.length} archivos accesibles ===`);
+                        }
+                    });
+            } else {
+                img.src = file;
+            }
+        });
+    };
 });
 
 // Estilos adicionales para efectos
