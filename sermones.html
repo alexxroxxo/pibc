@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermones | Primera Iglesia Bautista de Cúcuta</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="64x64" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="128x128" href="favicon.png?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon.png?v=3">
+    <meta name="msapplication-TileColor" content="#0a2947">
+    <meta name="msapplication-TileImage" content="favicon.png?v=3">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="sermones-page">
+    <!-- Header -->
+    <header class="header-elegant" style="height: 300px; min-height: 200px;">
+        <div class="header-background"></div>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand logo-header-group">
+                    <a href="index.html"><img src="logo-iglesia png.png" alt="Primera Iglesia Bautista de Cúcuta" class="church-logo"></a>
+                    <div class="logo-header-text">
+                        <span class="logo-title-main">PRIMERA IGLESIA BAUTISTA</span>
+                        <span class="logo-title-sub">CÚCUTA</span>
+                    </div>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="sermones.html" class="active">Sermones</a></li>
+                    <li><a href="index.html#ministerios">Ministerios</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                    <li><a href="recursos.html">Recursos</a></li>
+                </ul>
+                <div class="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+        <div class="hero-content" style="padding-top: 60px;">
+            <h1 style="font-size:2.5rem; color: white;">Sermones</h1>
+            <p style="color: white;">Explora nuestra colección completa de sermones y enseñanzas bíblicas</p>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <div class="container">
+            <!-- Lista de sermones -->
+            <div class="sermones-container">
+                <div class="sermones-grid" id="sermonesGrid">
+                    <!-- Los sermones se cargarán dinámicamente aquí -->
+                </div>
+                <!-- Mensaje cuando no hay sermones -->
+                <div id="noSermones" style="text-align: center; padding: 60px; color: var(--gray); display: none;">
+                    <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                    <h3>No se encontraron sermones</h3>
+                    <p>Intenta con otros filtros de búsqueda</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand logo-header-group">
+                    <img src="logo-iglesia png.png" alt="Primera Iglesia Bautista de Cúcuta" class="footer-logo logo-spin">
+                    <div class="logo-header-text">
+                        <span class="logo-title-main">PRIMERA IGLESIA BAUTISTA</span>
+                        <span class="logo-title-sub">CÚCUTA</span>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Enlaces Rápidos</h4>
+                        <ul>
+                            <li><a href="index.html#nosotros">Nosotros</a></li>
+                            <li><a href="sermones.html">Sermones</a></li>
+                            <li><a href="index.html#ministerios">Ministerios</a></li>
+                            <li><a href="index.html#contacto">Contacto</a></li>
+                            <li><a href="recursos.html">Recursos</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Primera Iglesia Bautista de Cúcuta. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

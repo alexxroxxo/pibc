@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transmisión en Vivo - Primera Iglesia Bautista de Cúcuta</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="64x64" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="128x128" href="favicon.png?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon.png?v=3">
+    <meta name="msapplication-TileColor" content="#0a2947">
+    <meta name="msapplication-TileImage" content="favicon.png?v=3">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .live-stream-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .live-stream-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .live-stream-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .live-stream-header p {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+        
+        .facebook-embed {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+            margin-bottom: 30px;
+        }
+        
+        .facebook-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .live-info {
+            background: var(--light-gray);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .live-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .live-schedule {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .schedule-item {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .schedule-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .live-status {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="live-stream-page">
+    <!-- Header -->
+    <header class="header-elegant" style="height: 200px; min-height: 150px;">
+        <div class="header-background"></div>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand logo-header-group">
+                    <a href="index.html"><img src="logo-iglesia png.png" alt="Primera Iglesia Bautista de Cúcuta" class="church-logo"></a>
+                    <div class="logo-header-text">
+                        <span class="logo-title-main">PRIMERA IGLESIA BAUTISTA</span>
+                        <span class="logo-title-sub">CÚCUTA</span>
+                    </div>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="sermones.html">Sermones</a></li>
+                    <li><a href="index.html#ministerios">Ministerios</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                    <li><a href="recursos.html">Recursos</a></li>
+                </ul>
+                <div class="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+        <div class="hero-content" style="padding-top: 40px;">
+            <h1 style="font-size:2rem;">Transmisión en Vivo</h1>
+            <p>Únete a nuestro servicio dominical en tiempo real</p>
+        </div>
+    </header>
+
+    <div class="live-stream-container">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Volver al Inicio
+        </a>
+        
+        <div class="live-stream-header">
+            <div class="live-status">🔴 EN VIVO AHORA</div>
+            <h1>Transmisión en Vivo</h1>
+            <p>Únete a nuestro servicio dominical en tiempo real</p>
+        </div>
+        
+        <!-- Embed de Facebook Live -->
+        <div class="facebook-embed">
+            <!-- REEMPLAZA ESTA URL CON TU TRANSMISIÓN DE FACEBOOK -->
+            <iframe 
+                src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ftuiglesia%2Fvideos%2Ftu-video-id&show_text=false&width=734&height=413&appId"
+                allowfullscreen="true"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+            </iframe>
+        </div>
+        
+        <div class="live-info">
+            <h3>📺 Cómo Ver la Transmisión</h3>
+            <p>Si la transmisión no se carga automáticamente, puedes:</p>
+            <ul>
+                <li>Hacer clic en el botón de reproducción en el video</li>
+                <li>Ver directamente en <a href="https://facebook.com/tuiglesia" target="_blank">nuestra página de Facebook</a></li>
+                <li>Recibir notificaciones cuando inicie la transmisión</li>
+            </ul>
+        </div>
+        
+        <div class="live-schedule">
+            <div class="schedule-item">
+                <h4>Domingo</h4>
+                <p><strong>9:00 AM</strong><br>Servicio Matutino</p>
+            </div>
+            <div class="schedule-item">
+                <h4>Domingo</h4>
+                <p><strong>6:00 PM</strong><br>Servicio Vespertino</p>
+            </div>
+            <div class="schedule-item">
+                <h4>Miércoles</h4>
+                <p><strong>7:00 PM</strong><br>Estudio Bíblico</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand logo-header-group">
+                    <img src="logo-iglesia png.png" alt="Primera Iglesia Bautista de Cúcuta" class="footer-logo logo-spin">
+                    <div class="logo-header-text">
+                        <span class="logo-title-main">PRIMERA IGLESIA BAUTISTA</span>
+                        <span class="logo-title-sub">CÚCUTA</span>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Enlaces Rápidos</h4>
+                        <ul>
+                            <li><a href="nosotros.html">Nosotros</a></li>
+                            <li><a href="sermones.html">Sermones</a></li>
+                            <li><a href="index.html#ministerios">Ministerios</a></li>
+                            <li><a href="index.html#contacto">Contacto</a></li>
+                            <li><a href="recursos.html">Recursos</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Primera Iglesia Bautista de Cúcuta. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
